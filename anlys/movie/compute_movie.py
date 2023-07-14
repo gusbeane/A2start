@@ -33,8 +33,8 @@ def _runner(path, snap, COM, ptypes=[0, 2, 3, 4],
                         combineFiles=True)
     
     # Get pos and vel of ptypes
-    pos, vel = get_pos_vel(sn, [2, 3, 4])
-    pos_gas, vel_gas = get_pos_vel(sn, [0])
+    #pos, vel = get_pos_vel(sn, [2, 3, 4])
+    #pos_gas, vel_gas = get_pos_vel(sn, [0])
     
     # if 'Nbody' in name:
     #     COM = np.array([0., 0., 0.])
@@ -64,6 +64,9 @@ def run(path, name, fout, nsnap, nproc, rng, COM_key):
                         combineFiles=True)
         COM = np.array([sn.BoxSize, sn.BoxSize, sn.BoxSize])/2.
         COM_list = np.full((nsnap, 3), COM)    
+    elif COM_key == 'Origin':
+        COM = np.array([0., 0., 0.])
+        COM_list = np.full((nsnap, 3), COM)
     else:
         basepath_COM = '../COM/'
         COM_fpath = basepath_COM + 'COM_' + name + '.npy'
@@ -105,17 +108,7 @@ if __name__ == '__main__':
 
     basepath = '../../runs/'
     
-
-    Nbody = 'Nbody'
-    fgMW05_fgGSE05 = 'fgGSE0.5_fgMW0.5'
-    GSEiso = 'GSEiso_fg0.5_Z-1.2'
-    GSEiso_Z0 = 'GSEiso_fg0.5_Z0'
-    MWiso_Z0 = 'MWiso_fg0.5_Z0'
-    MWiso_Z0_newS = 'MWiso_fg0.5_Z0-newSMUGGLE'
-    MWiso_Z0_corona5 = 'MWiso_fg0.5_Z0_coronaMHG0.5'
-    MW2iso_fg05 = 'MW2iso_fg0.5'
-    MW3iso_fg05 = 'MW3iso_fg0.5'
-    GSE2iso_fg07 = 'GSE2iso_fg0.7'
+    NbodyMND = 'Nbody-MND'
 
     rng0 = [[-80, 80], [-80, 80]]
     rng1 = [[-5, 5], [-5, 5]]
@@ -123,29 +116,12 @@ if __name__ == '__main__':
     rng3 = [[-30, 30], [-30, 30]]
     rng4 = [[-15, 15], [-15, 15]]
 
-    pair_list = [(Nbody, 'lvl4', rng0, 'Tot_COM'), # 0
-                 (Nbody, 'lvl3', rng0, 'Tot_COM'), # 1
-                 (fgMW05_fgGSE05, 'lvl4', rng0, 'Tot_COM'), # 2
-                 (fgMW05_fgGSE05, 'lvl3', rng0, 'Tot_COM'), # 3
-                 (fgMW05_fgGSE05, 'lvl4', rng3, 'Tot_COM'), # 4
-                 (fgMW05_fgGSE05, 'lvl4', rng4, 'MW_COM'), # 5
-                 (GSEiso, 'lvl4', rng1, 'BoxCenter'), # 6
-                 (GSEiso_Z0, 'lvl4', rng1, 'BoxCenter'), # 7
-                 (MWiso_Z0, 'lvl4', rng2, 'BoxCenter'), # 8
-                 (MWiso_Z0_corona5, 'lvl4', rng1, 'BoxCenter'), # 9
-                 (MW2iso_fg05, 'lvl4', rng2, 'BoxCenter'), # 10
-                 (MW2iso_fg05, 'lvl3', rng2, 'BoxCenter'), # 11
-                 (MW2iso_fg05, 'lvl4-nov', rng2, 'BoxCenter'), # 12
-                 (MW2iso_fg05, 'lvl4-SFE1', rng2, 'BoxCenter'), # 13
-                 (MW2iso_fg05, 'lvl4-novSFE1', rng2, 'BoxCenter'), # 14
-                 (MW2iso_fg05, 'lvl4-hydrosoft', rng2, 'BoxCenter'), # 15
-                 (MWiso_Z0_newS, 'lvl2-soft0.04', rng2, 'BoxCenter'), # 16
-                 (MWiso_Z0_newS, 'lvl3', rng2, 'BoxCenter'), # 17
-                 (MW3iso_fg05, 'lvl3', rng2, 'BoxCenter'), # 18
-                 (MW3iso_fg05, 'lvl2', rng2, 'BoxCenter'), # 19
-                 (MW3iso_fg05, 'lvl2-limiter', rng2, 'BoxCenter'), # 20
-                 (MW3iso_fg05, 'lvl2-limiter2', rng2, 'BoxCenter'), # 21
-                 (GSE2iso_fg07, 'lvl3', rng1, 'BoxCenter'), # 22
+    pair_list = [(NbodyMND, 'lvl3', rng4, 'Origin'), # 0
+                 (NbodyMND, 'lvl3-0.01', rng4, 'Origin'), # 1
+                 (NbodyMND, 'lvl3-0.02', rng4, 'Origin'), # 2
+                 (NbodyMND, 'lvl3-0.03', rng4, 'Origin'), # 3
+                 (NbodyMND, 'lvl3-0.04', rng4, 'Origin'), # 4
+                 (NbodyMND, 'lvl3-0.05', rng4, 'Origin'), # 5
                  ]
 
     rng_list     = [                        p[2] for p in pair_list]
